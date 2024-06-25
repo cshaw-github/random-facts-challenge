@@ -1,4 +1,4 @@
-package com.pelagohealth.codingchallenge.ui.theme
+package com.pelagohealth.codingchallenge.presentation.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
