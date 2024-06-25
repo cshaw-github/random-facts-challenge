@@ -15,4 +15,7 @@ dependencyResolutionManagement {
 
 rootProject.name = "Pelago Coding Challenge"
 include(":app")
- 
+include(":libraries:domainLayer")
+include(":libraries:dataLayer")
+include(":libraries:dataSource")
+include(":libraries:utils")

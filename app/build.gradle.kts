@@ -54,6 +54,11 @@ kotlin {
 }
 
 dependencies {
+	implementation(project(":libraries:domainLayer"))
+	implementation(project(":libraries:dataLayer"))
+	implementation(project(":libraries:dataSource"))
+	implementation(project(":libraries:utils"))
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
