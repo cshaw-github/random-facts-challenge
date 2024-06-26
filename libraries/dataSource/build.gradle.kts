@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
+	//kotlin("kapt")
+	//alias(libs.plugins.hilt.android)
 }
 
 android {
@@ -37,8 +39,32 @@ dependencies {
     implementation(project(":libraries:utils"))
 	implementation(libs.kotlin.coroutines)
 
+	// Retrofit
+	implementation(libs.retrofit)
+	implementation(libs.retrofit.converter.moshi)
+	implementation(libs.retrofit.converter.gson)
+
+	// Moshi
+	implementation(libs.moshi)
+
+	// OkHttp3
+	implementation(libs.okHttp3)
+	implementation(libs.okHttp3.logging.interceptor)
+
+	// Hilt
+	//implementation(libs.hilt.android)
+	//kapt(libs.hilt.android.compiler)
+
+	// Koin
+	implementation(libs.koin.core)
+
     testImplementation(libs.junit)
 	implementation(libs.kotlin.test)
 	implementation(libs.kotlin.coroutines.test)
 	testImplementation(libs.mockk)
 }
+
+// Allow references to generated code
+/*kapt {
+	correctErrorTypes = true
+}*/

@@ -1,8 +1,12 @@
 package com.pelagohealth.codingchallenge.presentation
 
 import android.app.Application
-import dagger.hilt.android.HiltAndroidApp
+import com.pelagohealth.codingchallenge.presentation.di.initKoin
 
-@HiltAndroidApp
+//@HiltAndroidApp
 class PelagoApp : Application() {
+	override fun onCreate() {
+		super.onCreate()
+		initKoin()
+	}
 }
