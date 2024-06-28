@@ -24,17 +24,14 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
 	private val useCase: GetFactUseCase
 ) : ViewModel() {
-	private val _newFactState = MutableStateFlow(FactEntity())
 	val newFactState: StateFlow<FactEntity>
-		get() = _newFactState
+		field = MutableStateFlow(FactEntity())
 
-	private val _factListState = MutableStateFlow(emptyList<FactEntity>())
 	val factListState: StateFlow<List<FactEntity>>
-		get() = _factListState
+		field = MutableStateFlow(emptyList<FactEntity>())
 
-	private val _uiState = MutableStateFlow<UiStatus>(UiStatus.None)
 	val uiState: StateFlow<UiStatus>
-		get() = _uiState
+		field = MutableStateFlow<UiStatus>(UiStatus.None)
 
 	init {
 		viewModelScope.launch(IO) {
@@ -44,7 +41,7 @@ class HomeViewModel @Inject constructor(
 
 	suspend fun fetchNewFact() {
 		useCase()
-			.onStart { _uiState.value = UiStatus.Loading }
+			.onStart { uiState.value = UiStatus.Loading }
 			.onEach(::validateData)
 			.catch {}
 			.collect()
@@ -58,24 +55,24 @@ class HomeViewModel @Inject constructor(
 				status.data?.let { newFact ->
 					val factTimestamped =
 						newFact.toUi().copy(timestamp = System.currentTimeMillis())
-					if (_newFactState.value.timestamp != 0L) {
+					if (newFactState.value.timestamp != 0L) {
 						processFactList()
 					}
-					_newFactState.value = factTimestamped
+					newFactState.value = factTimestamped
 
 				}
-				_uiState.value = UiStatus.Success
+				uiState.value = UiStatus.Success
 			}
 
 			false -> {
-				_uiState.value = UiStatus.Error(status.error ?: UNKNOWN_ERROR)
+				uiState.value = UiStatus.Error(status.error ?: UNKNOWN_ERROR)
 			}
 		}
 	}
 
 	private fun processFactList() {
-		val currentFacts = _factListState.value.toMutableList()
-		val prevFact = _newFactState.value
+		val currentFacts = factListState.value.toMutableList()
+		val prevFact = newFactState.value
 		val newFacts = if (currentFacts.size <= 2) {
 			currentFacts.add(prevFact)
 			currentFacts
@@ -84,11 +81,11 @@ class HomeViewModel @Inject constructor(
 			val oldestItem = sortedList.first()
 			sortedList.filter { it.timestamp != oldestItem.timestamp } + prevFact
 		}
-		_factListState.value = newFacts
+		factListState.value = newFacts
 	}
 
 	fun removeFact(fact: FactEntity) {
-		val newList = _factListState.value.toMutableList().filter { fact != it }
-		_factListState.value = newList
+		val newList = factListState.value.toMutableList().filter { fact != it }
+		factListState.value = newList
 	}
 }
