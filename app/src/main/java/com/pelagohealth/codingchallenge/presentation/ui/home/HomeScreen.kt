@@ -1,15 +1,12 @@
 package com.pelagohealth.codingchallenge.presentation.ui.home
 
-import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Button
@@ -23,20 +20,18 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.IntOffset
 import androidx.hilt.navigation.compose.hiltViewModel
 import cafe.adriel.voyager.core.screen.Screen
 import com.pelagohealth.codingchallenge.presentation.components.dimens.Dimens
 import com.pelagohealth.codingchallenge.presentation.components.snackbar.PalegoSnackbar
+import com.pelagohealth.codingchallenge.presentation.components.swipe.SwipeRightOrLeftToDelete
 import com.pelagohealth.codingchallenge.presentation.model.FactEntity
 import com.pelagohealth.codingchallenge.presentation.model.UiStatus
 import com.pelagohealth.codingchallenge.presentation.ui.ValidateUiStatus
@@ -44,8 +39,6 @@ import com.pelagohealth.codingchallenge.ui.theme.PelagoCodingChallengeTheme
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlin.math.absoluteValue
-import kotlin.math.roundToInt
 
 
 data object HomeScreen : Screen {
@@ -163,11 +156,17 @@ fun FactList(
 			var dismissed by remember { mutableStateOf(false) }
 			if (!dismissed) {
 				val item = facts[index]
-				SwipeToDismissItem(
-					item = item,
+				SwipeRightOrLeftToDelete(
 					onDismiss = {
 						dismissed = true
 						onRemoveItem(item)
+					},
+					content = {
+						FactItem(
+							fact = item,
+							modifier = Modifier
+								.align(Alignment.CenterStart)
+						)
 					}
 				)
 			}
@@ -176,9 +175,12 @@ fun FactList(
 }
 
 @Composable
-fun FactItem(fact: FactEntity) {
+fun FactItem(
+	modifier: Modifier = Modifier,
+	fact: FactEntity
+) {
 	Card(
-		modifier = Modifier
+		modifier = modifier
 			.fillMaxWidth()
 	) {
 		Text(
@@ -201,36 +203,6 @@ fun FactItem(fact: FactEntity) {
 		)
 	}
 }
-
-@Composable
-fun SwipeToDismissItem(
-	item: FactEntity,
-	onDismiss: () -> Unit
-) {
-	var offsetX by remember { mutableFloatStateOf(0f) }
-	Box(
-		modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = Dimens.small)
-            .pointerInput(Unit) {
-                detectHorizontalDragGestures(
-                    onDragEnd = {
-                        if (offsetX.absoluteValue > 300) {
-                            onDismiss()
-                        }
-                        offsetX = 0f
-                    }
-                ) { change, dragAmount ->
-                    change.consume()
-                    offsetX += dragAmount
-                }
-            }
-            .offset { IntOffset(offsetX.roundToInt(), 0) }
-	) {
-		FactItem(fact = item)
-	}
-}
-
 
 @Preview(showBackground = true)
 @Composable
