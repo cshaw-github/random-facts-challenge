@@ -2,8 +2,8 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
 	alias(libs.plugins.kotlinx.serialization)
-	//kotlin("kapt")
-	//alias(libs.plugins.hilt.android)
+	alias(libs.plugins.ksp)
+	alias(libs.plugins.hilt)
 }
 
 android {
@@ -41,8 +41,8 @@ dependencies {
 	implementation(libs.kotlin.coroutines)
 
 	// Hilt
-	//implementation(libs.hilt.android)
-	//kapt(libs.hilt.android.compiler)
+	ksp(libs.hilt.android.compiler)
+	implementation(libs.hilt.android)
 
 	// Koin
 	implementation(libs.koin.core)
@@ -52,8 +52,3 @@ dependencies {
 	implementation(libs.kotlin.coroutines.test)
 	testImplementation(libs.mockk)
 }
-
-// Allow references to generated code
-//kapt {
-//	correctErrorTypes = true
-//}

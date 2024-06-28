@@ -11,8 +11,9 @@ import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.navigator.Navigator
 import com.pelagohealth.codingchallenge.presentation.ui.home.HomeScreen
 import com.pelagohealth.codingchallenge.ui.theme.PelagoCodingChallengeTheme
+import dagger.hilt.android.AndroidEntryPoint
 
-//@AndroidEntryPoint
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)

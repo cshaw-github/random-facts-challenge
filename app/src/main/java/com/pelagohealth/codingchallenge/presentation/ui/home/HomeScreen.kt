@@ -33,8 +33,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
+import androidx.hilt.navigation.compose.hiltViewModel
 import cafe.adriel.voyager.core.screen.Screen
-import cafe.adriel.voyager.koin.getScreenModel
 import com.pelagohealth.codingchallenge.presentation.components.dimens.Dimens
 import com.pelagohealth.codingchallenge.presentation.components.snackbar.PalegoSnackbar
 import com.pelagohealth.codingchallenge.presentation.model.FactEntity
@@ -54,7 +54,7 @@ data object HomeScreen : Screen {
 	@Composable
 	override fun Content() {
 		val coroutineScope = rememberCoroutineScope()
-		val viewModel = getScreenModel<HomeViewModel>()
+		val viewModel = hiltViewModel<HomeViewModel>()
 		val snackbar = remember { PalegoSnackbar(SnackbarHostState()) }
 		val newFact by viewModel.newFactState.collectAsState()
 		val uiState by viewModel.uiState.collectAsState()

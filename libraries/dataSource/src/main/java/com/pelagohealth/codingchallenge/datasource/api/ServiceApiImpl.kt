@@ -11,9 +11,10 @@ import kotlinx.coroutines.flow.flow
 
 import kotlinx.coroutines.withTimeoutOrNull
 import java.net.ConnectException
+import javax.inject.Inject
 import kotlin.time.Duration.Companion.seconds
 
-internal class ServiceApiImpl(
+class ServiceApiImpl @Inject constructor(
 	private val restApi: FactsRestApi
 ) : ServiceApi {
 	override suspend fun getFact(): Flow<Response> = flow {

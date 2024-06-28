@@ -9,9 +9,10 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
+import javax.inject.Inject
 
 @OptIn(ExperimentalCoroutinesApi::class)
-internal class FactRepositoryImpl(
+class FactRepositoryImpl @Inject constructor(
 	private val serviceApi: ServiceApi,
 ) : FactRepository {
 
@@ -25,8 +26,6 @@ internal class FactRepositoryImpl(
 		response: Response
 	): Flow<Status> {
 		val status = if (response.successful) {
-			// TODO: save to database
-
 			Status(data = response.data?.toDomainLayer())
 		} else {
 			Status(error = response.error ?: "UNKNOWN_ERROR")

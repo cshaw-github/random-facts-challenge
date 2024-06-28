@@ -2,8 +2,8 @@ plugins {
 	alias(libs.plugins.android.application)
 	alias(libs.plugins.jetbrains.kotlin.android)
 	alias(libs.plugins.compose.compiler)
-//	kotlin("kapt")
-//	alias(libs.plugins.hilt.android)
+	alias(libs.plugins.ksp)
+	alias(libs.plugins.hilt)
 }
 
 android {
@@ -79,11 +79,13 @@ dependencies {
     // Retrofit
     implementation(libs.retrofit)
     implementation(libs.retrofit.converter.moshi)
+	implementation(libs.retrofit.converter.gson)
     implementation(libs.moshi)
 
     // Hilt
-    //implementation(libs.hilt.android)
-	//kapt(libs.hilt.android.compiler)
+	ksp(libs.hilt.android.compiler)
+	implementation(libs.hilt.android)
+	implementation(libs.hilt.navigation.compose)
 
 	// Koin
 	implementation(libs.koin.core)
@@ -107,8 +109,3 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 }
-
-//// Allow references to generated code
-//kapt {
-//	correctErrorTypes = true
-//}
