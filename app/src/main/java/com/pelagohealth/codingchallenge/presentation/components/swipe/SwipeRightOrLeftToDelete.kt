@@ -35,7 +35,7 @@ import kotlin.math.sign
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SwipeRightOrLeftToDelete(
-	onDismiss: () -> Unit,
+	onDelete: () -> Unit,
 	content: @Composable BoxScope.() -> Unit,
 ) {
 	var offsetX by remember { mutableFloatStateOf(0f) }
@@ -81,7 +81,7 @@ fun SwipeRightOrLeftToDelete(
 			) {
 				IconButton(
 					onClick = {
-						onDismiss()
+						onDelete()
 						showConfirmation = false
 					}
 				) {

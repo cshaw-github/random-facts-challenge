@@ -157,7 +157,7 @@ fun FactList(
 			if (!dismissed) {
 				val item = facts[index]
 				SwipeRightOrLeftToDelete(
-					onDismiss = {
+					onDelete = {
 						dismissed = true
 						onRemoveItem(item)
 					},
