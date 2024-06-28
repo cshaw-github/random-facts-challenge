@@ -4,9 +4,4 @@ import android.app.Application
 import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
-class PelagoApp : Application() /*{
-	override fun onCreate() {
-		super.onCreate()
-*//*		initKoin()*//*
-	}
-}*/
+class PelagoApp : Application()
